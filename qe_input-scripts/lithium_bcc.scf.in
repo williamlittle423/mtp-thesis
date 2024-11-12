@@ -1,0 +1,31 @@
+&CONTROL
+    calculation = 'scf',
+    prefix = 'lithium_bcc',
+    outdir = './tmp/',
+    pseudo_dir = './pseudo/',
+    wf_collect = .true.,
+/
+&SYSTEM
+    ibrav = 3, 
+    a = 3.49, 
+    nat = 2,
+    ntyp = 1,
+    ecutwfc = 30.0,
+    ecutrho = 300.0,
+    occupations = 'smearing',
+    smearing = 'gaussian',
+    degauss = 0.01,
+/
+&ELECTRONS
+    conv_thr = 1.0d-8,
+    mixing_beta = 0.7,
+/
+ATOMIC_SPECIES
+    Li  6.94  Li.pz-vbc.UPF
+
+ATOMIC_POSITIONS (crystal)
+    Li 0.0 0.0 0.0
+    Li 0.5 0.5 0.5
+
+K_POINTS automatic
+    6 6 6 1 1 1
