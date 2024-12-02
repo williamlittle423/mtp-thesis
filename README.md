@@ -79,5 +79,3 @@ The Moment Tensor Potential represents a significant advancement in the field of
 ## 3. Log <a name="log"></a>
 
 ### Entries
-- **Date**: Description of progress and notes.
-- **Date**: Description of progress and notes.
