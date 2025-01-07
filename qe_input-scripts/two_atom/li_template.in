@@ -1,0 +1,30 @@
+&CONTROL
+    calculation = 'scf',
+    prefix = 'Li',
+    outdir = './tmp/',
+    pseudo_dir = '../../pseudopotentials/',
+/
+
+&SYSTEM
+    ibrav = 3,
+    celldm(1) = 6.00,
+    nat = 2,
+    ntyp = 1,
+    ecutwfc = 30.0,
+    ecutrho = 120.0,
+/
+
+&ELECTRONS
+    conv_thr = 1.0d-8,
+/
+
+ATOMIC_SPECIES
+ Li 6.94 Li.pbe-s-kjpaw_psl.1.0.0.UPF
+
+ATOMIC_POSITIONS (crystal)
+ Li 0.0 0.0 0.0
+ Li 0.5 0.5 0.5
+
+! IMPORTANT: Add a blank line here before K_POINTS
+K_POINTS automatic
+ 8 8 8 0 0 0
