@@ -13,7 +13,7 @@ repeat until all lattice parameters have been used
 template_file = "li_template.in"  # Replace with your template filename
 
 # Define the range of lattice parameters
-lattice_parameters = [6.0 + 0.1 * i for i in range(11)]  # 6.0 to 7.0 in steps of 0.1 Bohr
+lattice_parameters = [3.0 + 0.1 * i for i in range(100)]  # 6.0 to 7.0 in steps of 0.1 Bohr
 
 # Quantum ESPRESSO executable path
 qe_executable = "/Users/williamlittle/software/qe/q-e-qe-7.0/build/bin/pw.x"  # Replace with the actual path to pw.x
@@ -67,7 +67,7 @@ plt.figure(figsize=(8, 6))
 plt.plot(lattice_parameters, energies, marker='o', linestyle='-', color='b', label="Energy vs Lattice Parameter")
 plt.xlabel("Lattice Parameter (Bohr)")
 plt.ylabel("Total Energy (Ry)")
-plt.title("Energy vs Lattice Parameter for Lithium")
+plt.title("Energy vs Lattice Parameter of Li BCC Unit Cell")
 plt.grid(True)
 plt.legend()
 plt.savefig("energy_vs_lattice_parameter.png")  # Save the plot as a PNG file

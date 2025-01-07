@@ -79,3 +79,62 @@ The Moment Tensor Potential represents a significant advancement in the field of
 ## 3. Log <a name="log"></a>
 
 ### Entries
+
+### January 6, 2025
+
+#### Installing Quantum ESPRESSO
+
+Today I set up my new MacBook with the M2 processor, which meant reinstalling Quantum ESPRESSO. Getting it configured took some time, but I finally found a helpful discussion on [Matter Modeling StackExchange](https://mattermodeling.stackexchange.com/questions/7146/installing-quantum-espresso-on-an-apple-m1-processor-possible), which provided the instructions I needed.
+
+#### Using Quantum ESPRESSO
+
+To run a Quantum ESPRESSO input file, use a command like: `mpirun -np N /path/to/build/bin/pw.x -in input_file.in > output_file.out`
+- **N** is the number of processors you want to use.  
+- `/path/to/build/bin/pw.x` is replaced to my local QE build directory `pw.x` executable.  
+- `input_file.in` is the QE input, and all output is redirected into `output_file.out`.
+
+#### QE Input Files
+
+There are a of a QE input file. They are the following:
+
+A QE input file is structured in Namelists (&CONTROL, &SYSTEM, &ELECTRONS) and Cards (ATOMIC_SPECIES, ATOMIC_POSITIONS, K_POINTS). Each section tells QE how to setup and run the script. Note that details of each are found at [Quantum Espresso INPUT PW](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm226)
+
+##### &CONTROL Namelist
+
+&CONTROL
+    calculation = 'scf',
+    prefix = 'Li_single',
+    outdir = './tmp/',
+    pseudo_dir = '../pseudopotentials/',
+    tprnfor = .true.,   ! Print forces
+    tstress = .true.,   ! Compute stress tensor
+/
+
+`calculation`: This tells QE to perform a self-consistent field calculation. For the purpose of my thesis, this is the primary calculation that will be performed.
+`prefix`: This is a prefix for naming the files QE generates from running the script.
+`outdir`: Tempory files will be written and saved to this folder during runtime.
+`pseudodir`: Tells the script where to look for the pseudo potential files.
+`tprnfor`: Option field to print the forces on each atom.
+`tstress`: Optional field to print the stress tensor.
+
+##### &SYSTEM Namelist
+
+&SYSTEM
+    ibrav = 1,
+    celldm(1) = 10.0,
+    nat = 1,          
+    ntyp = 1, 
+    ecutwfc = 30.0,   
+    ecutrho = 300.0,     
+    occupations = 'smearing',
+    smearing = 'gaussian',
+    degauss = 0.01,
+/
+
+`ibrav`: Bravais-lattice index. This specifies the atomic structure of the lattice. E.g. BCC, FCC, FREE
+`celldm(1)`: Crystallographic constants (lattice parameters). Argument ranges from 1-6 (A, B, C, cosAB, cosBC, cosAC).
+`nat` Number of atoms.
+`ntyp` Number of types of atoms.
+`ecutwfc`: Plane-wave (kinetic energy) cutoff for wavefunctions (Ry)
+`ecutrho`: Plane-wave cutoff for charge density (Ry)
+`occupations`: 

@@ -1,0 +1,29 @@
+&CONTROL
+    calculation = 'scf',
+    prefix = 'Li_single',
+    outdir = './tmp/',
+    pseudo_dir = '../pseudopotentials/',
+    tprnfor = .true.,   ! Print forces
+    tstress = .true.,    ! Compute stress tensor
+/
+&SYSTEM
+    ibrav = 1,           ! Simple cubic
+    celldm(1) = 10.0,    ! Lattice parameter in Bohr (~5.29 Å)
+    nat = 1,             ! Number of atoms
+    ntyp = 1,            ! Number of types of atoms
+    ecutwfc = 30.0,      ! Plane-wave cutoff for wavefunctions (Ry)
+    ecutrho = 300.0,     ! Plane-wave cutoff for charge density (Ry)
+    occupations = 'smearing',
+    smearing = 'gaussian',
+    degauss = 0.01,
+/
+&ELECTRONS
+    conv_thr = 1.0d-8,
+    mixing_beta = 0.7,
+/
+ATOMIC_SPECIES
+ Li  6.94  Li.pbe-s-kjpaw_psl.1.0.0.UPF
+ATOMIC_POSITIONS (angstrom)
+ Li 0.0 0.0 0.0
+K_POINTS automatic
+ 4 4 4 0 0 0
