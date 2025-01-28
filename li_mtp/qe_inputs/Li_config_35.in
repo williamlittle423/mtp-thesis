@@ -1,0 +1,32 @@
+
+&CONTROL
+    calculation = 'scf',
+    prefix = 'Li_config_35',
+    outdir = './tmp/',
+    pseudo_dir = '../../pseudopotentials/',
+    tprnfor = .true.,
+    tstress = .true.,
+/
+&SYSTEM
+    ibrav = 1,
+    celldm(1) = 9.501252,  ! Perturbed lattice parameter
+    nat = 2,
+    ntyp = 1,
+    ecutwfc = 30.0,
+    ecutrho = 300.0,
+    occupations = 'smearing',
+    smearing = 'gaussian',
+    degauss = 0.01,
+/
+&ELECTRONS
+    conv_thr = 1.0d-8,
+    mixing_beta = 0.7,
+/
+ATOMIC_SPECIES
+ Li  6.94  Li.pbe-s-kjpaw_psl.1.0.0.UPF
+ATOMIC_POSITIONS (crystal)
+ Li  0.054659  0.094779  0.990069
+ Li  0.538254  0.592299  0.576023
+
+K_POINTS automatic
+ 4 4 4 0 0 0
