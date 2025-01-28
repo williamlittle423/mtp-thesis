@@ -221,4 +221,10 @@ The relevent data needs to be extracted from the QE outputs from step 1 and form
 
 To train the MTP, an initial MTP file has to be created that defines the model parameters, radial basis functions, and atom information. I found this from [Ivan Novikov's GitLab repository](https://gitlab.com/ivannovikov/mlip-3-example/-/blob/master/cu-structure-growing-input/init.almtp) of an example of training an MTP of a copper substrate.
 
+The bash command to train the MTP assuming the mlp executable is on the path is the following for a training configuration file train.cfg, initial MTP file init.mtp:
+
+    mlp train init.mtp train.cfg --energy-weight=1 --force-weight=0.1 --stress-weight=0.001 --max-iter=2000 --save_to=curr.mtp --init_random=true
+
+
+
 
