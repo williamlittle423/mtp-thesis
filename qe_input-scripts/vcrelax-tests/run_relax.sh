@@ -1,0 +1,1 @@
+mpirun -np 4 /Users/williamlittle/software/qe/q-e-qe-7.0/build/bin/pw.x -inp si_relax.in > si_relax.out
