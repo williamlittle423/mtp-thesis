@@ -205,4 +205,20 @@ The first parameter to optimize was ecutwfc--the kinetic energy cutoff for wavef
 
         print(f"ecutwfc = {ecut} Ry -> Total energy = {energy} Ry")
 
+### January 18, 2025 <a name="January 10, 2025"></a>
+
+This week I began training my first MTP models. To perform this required three steps:
+
+#### 1. Quantum ESPRESSO Input File Generation Script
+
+I wrote a Python script **generate_perturbed_configs.py** located in **python-scripts** of this repository that generates a desired amount of custom QE input files. The inputs have random perturbations up to a desired percentage of the relaxed lattice parameter. For my first test, I used a maximum 10% perturbation.
+
+#### 2. QE to MTP Configuration Parser
+
+The relevent data needs to be extracted from the QE outputs from step 1 and formatted in MTP configurations for training/testing. To do this, I used Python and read line by line to find the matching lines of cell vectors, atom positions, forces, stresses, and total energy.
+
+#### 3. Training the MTP
+
+To train the MTP, an initial MTP file has to be created that defines the model parameters, radial basis functions, and atom information. I found this from [Ivan Novikov's GitLab repository](https://gitlab.com/ivannovikov/mlip-3-example/-/blob/master/cu-structure-growing-input/init.almtp) of an example of training an MTP of a copper substrate.
+
 
