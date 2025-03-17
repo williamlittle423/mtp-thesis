@@ -1,0 +1,5 @@
+Errors: cfg# 1	#atoms: 1	Diff(ene):-0.0213165	Diff(epa):0.0213165	RMS(force): 0	MAX(force): 0	Rel(force): 0	Diff(stress): 11.7421	Rel(stress): 22.6077
+Errors: cfg# 2	#atoms: 1	Diff(ene):-0.0558205	Diff(epa):0.0558205	RMS(force): 0	MAX(force): 0	Rel(force): 0	Diff(stress): 20.5554	Rel(stress): 36.9601
+Errors: cfg# 3	#atoms: 1	Diff(ene):-0.00383951	Diff(epa):0.00383951	RMS(force): 0	MAX(force): 0	Rel(force): 0	Diff(stress): 1.77009	Rel(stress): 3.38218
+Errors: cfg# 4	#atoms: 1	Diff(ene):0.0282116	Diff(epa):0.0282116	RMS(force): 0	MAX(force): 0	Rel(force): 0	Diff(stress): 4.25131	Rel(stress): 9.84433
+Errors: cfg# 5	#atoms: 1	Diff(ene):-0.0191242	Diff(epa):0.0191242	RMS(force): 0	MAX(force): 0	Rel(force): 0	Diff(stress): 8.76705	Rel(stress): 14.0236

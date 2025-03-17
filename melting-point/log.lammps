@@ -1,0 +1,79 @@
+LAMMPS (29 Aug 2024 - Update 1)
+# Initialization
+units           metal                      # Use metal units (Å, ps, eV)
+boundary        p p p                      # Periodic in all directions
+atom_style      atomic                     # Atoms are treated as point masses
+
+# Read the solid phase data file
+read_data       Li_solid_large.lmp         # Input file containing the solid lithium structure
+Reading data file ...
+  orthogonal box = (0 0 0) to (35.1 35.1 70.2)
+  1 by 1 by 4 MPI processor grid
+  reading atoms ...
+  4000 atoms
+  read_data CPU = 0.019 seconds
+
+# Define the region to melt
+region          melt_region block INF INF INF INF 0 50 units box  # Region from z=0 to z=50 Å
+group           melt_group region melt_region                     # Group atoms in this region
+2900 atoms in group melt_group
+
+# Set the interatomic potential (replace with your MTP potential)
+pair_style mlip load_from=Li_potential.almtp  extrapolation_control=true extrapolation_control:threshold_break=10 extrapolation_control:threshold_save=2 extrapolation_control:save_extrapolative_to=out/preselected.cfg
+pair_coeff      * *                                               # Apply the potential to all atom types
+
+# Neighbor list settings
+neighbor        5 bin
+neigh_modify    every 1 delay 0 check yes
+
+# Initialize velocities for the melt group
+velocity        melt_group create 500.0 12345 dist gaussian      # Set initial temperature to 1000 K
+
+# Apply NVT ensemble to melt group
+fix             1 melt_group nvt temp 1000.0 1000.0 0.1          # Maintain temperature at 1000 K with damping
+
+# Apply NVE ensemble to the rest of the system (solid part)
+group           solid_group subtract all melt_group              # Define solid group as all atoms minus melt group
+1100 atoms in group solid_group
+fix             2 solid_group nve                                # Integrate solid group using NVE
+
+# Thermodynamic output settings
+thermo_style    custom step temp press pe ke etotal              # Output step, temperature, pressure, energy
+thermo          100                                              # Print thermodynamic info every 100 steps
+
+# Dump atomic positions for visualization
+dump            1 all custom 1000 dump.melt id type x y z        # Save atomic positions every 1000 steps
+
+# Run simulation to melt the region
+run             20000                                            # Run for 20,000 timesteps (~20 ps)
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- Type Label Framework: https://doi.org/10.1021/acs.jpcb.3c08419
+
+@Article{Gissinger24,
+ author = {Jacob R. Gissinger, Ilia Nikiforov, Yaser Afshar, Brendon Waters, Moon-ki Choi, Daniel S. Karls, Alexander Stukowski, Wonpil Im, Hendrik Heinz, Axel Kohlmeyer, and Ellad B. Tadmor},
+ title = {Type Label Framework for Bonded Force Fields in LAMMPS},
+ journal = {J. Phys. Chem. B},
+ year =    2024,
+ volume =  128,
+ number =  13,
+ pages =   {3282–-3297}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 10
+  ghost atom cutoff = 10
+  binsize = 5, bins = 8 8 15
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair mlip, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard

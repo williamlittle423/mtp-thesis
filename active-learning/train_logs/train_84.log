@@ -1,0 +1,84 @@
+Selection data found
+Basic trainer initialization complete
+	auto-minmax-magmom = false
+	init_random = false
+	no_mindist_update = false
+	skip_preinit = false
+	iteration_limit = 1000
+	weight_scaling = 1
+	weight_scaling_forces = 0
+	energy_weight = 1.000000
+	force_weight = 0.010000
+	penalty_weight = 0.000001
+	scale_by_force = 0.000000
+	select_factor = 1.000000
+	stress_weight = 0.001000
+	tolerance = 0.001000
+	log = stdout
+	save_to = mtp_V84.mtp
+115 configurations found in the training set
+Minimal interatomic distance in the training set is 1.56937. MTP's mindist will be updated
+Iteration limit is 1000
+Convergence tolerance is 0.001
+Energy weight: 1
+Force weight: 0.01
+Stress weight: 0.001
+MTPR training started on 1 core(s)
+BFGS has exceeded the linesearch limit. Cannot converge further
+MTPR training ended
+Rescaling...
+   scaling = 0.84728009, condition number = 20.153465
+   scaling = 0.92430556, condition number = 18.452536
+   scaling = 1.0167361, condition number = 17.639654
+   scaling = 1.1184097, condition number = 17.65388
+   scaling = 1.2200833, condition number = 17.931041
+Rescaling to 1.0167361... done
+_________________Errors report_________________
+Energy:
+	Errors checked for 115 configurations
+	Maximal absolute difference = 0.0214957
+	Average absolute difference = 0.000713518
+	RMS     absolute difference = 0.00348301
+
+Energy per atom:
+	Errors checked for 115 configurations
+	Maximal absolute difference = 0.0214957
+	Average absolute difference = 0.000713504
+	RMS     absolute difference = 0.00348301
+
+Forces:
+	Errors checked for 220 atoms
+	Maximal absolute difference = 0.000905099
+	Average absolute difference = 0.000863958
+	RMS     absolute difference = 0.000884289
+	Max(ForceDiff) / Max(Force) = 0.000589138
+	RMS(ForceDiff) / RMS(Force) = 0.000589138
+
+Stresses (in energy units):
+	Errors checked for 115 configurations
+	Maximal absolute difference = 1.11379
+	Average absolute difference = 0.0387519
+	RMS     absolute difference = 0.131905
+	Max(StresDiff) / Max(Stres) = 0.315754
+	RMS(StresDiff) / RMS(Stres) = 0.0391317
+
+Virial stresses (in pressure units):
+	Errors checked for 115 configurations
+	Maximal absolute difference = 3.44331
+	Average absolute difference = 0.467475
+	RMS     absolute difference = 0.579949
+	Max(StresDiff) / Max(Stres) = 0.0390622
+	RMS(StresDiff) / RMS(Stres) = 0.00688533
+_______________________________________________
+
+	batch_size = 9999
+	swap_limit = 0
+	weight_scaling = 2
+	energy_weight = 1.000000
+	force_weight = 0.000000
+	init_value = 0.000001
+	site_en_weight = 0.000000
+	stress_weight = 0.000000
+	threshold = 1.001000
+Selection: state saved to "mtp_V84.mtp"
+training complete

@@ -1,0 +1,110 @@
+Selection data found
+Basic trainer initialization complete
+	auto-minmax-magmom = false
+	init_random = false
+	no_mindist_update = false
+	skip_preinit = false
+	iteration_limit = 1000
+	weight_scaling = 1
+	weight_scaling_forces = 0
+	energy_weight = 1.000000
+	force_weight = 0.010000
+	penalty_weight = 0.000001
+	scale_by_force = 0.000000
+	select_factor = 1.000000
+	stress_weight = 0.001000
+	tolerance = 0.001000
+	log = stdout
+	save_to = mtp_V91.mtp
+122 configurations found in the training set
+Minimal interatomic distance in the training set is 1.56937. MTP's mindist will be updated
+Iteration limit is 1000
+Convergence tolerance is 0.001
+Energy weight: 1
+Force weight: 0.01
+Stress weight: 0.001
+MTPR training started on 1 core(s)
+BFGS iter 0: f=7.22226e-05
+BFGS iter 1: f=7.22226e-05
+BFGS iter 2: f=7.22226e-05
+BFGS iter 3: f=7.22226e-05
+BFGS iter 4: f=7.22226e-05
+BFGS iter 5: f=7.22226e-05
+BFGS iter 6: f=7.22226e-05
+BFGS iter 7: f=7.22226e-05
+BFGS iter 8: f=7.22226e-05
+BFGS iter 9: f=7.22226e-05
+BFGS iter 10: f=7.22225e-05
+BFGS iter 11: f=7.22225e-05
+BFGS iter 12: f=7.22224e-05
+BFGS iter 13: f=7.22223e-05
+BFGS iter 14: f=7.22222e-05
+BFGS iter 15: f=7.22221e-05
+BFGS iter 16: f=7.22219e-05
+BFGS iter 17: f=7.22217e-05
+BFGS iter 18: f=7.22214e-05
+BFGS iter 19: f=7.22212e-05
+BFGS iter 20: f=7.22208e-05
+BFGS iter 21: f=7.22206e-05
+BFGS iter 22: f=7.22203e-05
+BFGS iter 23: f=7.22198e-05
+BFGS iter 24: f=7.22194e-05
+BFGS iter 25: f=3.7103734e-05
+BFGS has exceeded the linesearch limit. Cannot converge further
+MTPR training ended
+Rescaling...
+   scaling = 0.84728009, condition number = 28.429569
+   scaling = 0.92430556, condition number = 26.079133
+   scaling = 1.0167361, condition number = 25.234898
+   scaling = 1.1184097, condition number = 25.978411
+   scaling = 1.2200833, condition number = 27.665078
+Rescaling to 1.0167361... done
+_________________Errors report_________________
+Energy:
+	Errors checked for 122 configurations
+	Maximal absolute difference = 0.0214718
+	Average absolute difference = 0.000672657
+	RMS     absolute difference = 0.00338437
+
+Energy per atom:
+	Errors checked for 122 configurations
+	Maximal absolute difference = 0.0214718
+	Average absolute difference = 0.000672642
+	RMS     absolute difference = 0.00338437
+
+Forces:
+	Errors checked for 234 atoms
+	Maximal absolute difference = 0.000765994
+	Average absolute difference = 0.000733259
+	RMS     absolute difference = 0.000749448
+	Max(ForceDiff) / Max(Force) = 0.000498593
+	RMS(ForceDiff) / RMS(Force) = 0.000498593
+
+Stresses (in energy units):
+	Errors checked for 122 configurations
+	Maximal absolute difference = 1.10838
+	Average absolute difference = 0.0370148
+	RMS     absolute difference = 0.127941
+	Max(StresDiff) / Max(Stres) = 0.31422
+	RMS(StresDiff) / RMS(Stres) = 0.0378529
+
+Virial stresses (in pressure units):
+	Errors checked for 122 configurations
+	Maximal absolute difference = 3.42658
+	Average absolute difference = 0.452895
+	RMS     absolute difference = 0.562857
+	Max(StresDiff) / Max(Stres) = 0.0388725
+	RMS(StresDiff) / RMS(Stres) = 0.00666423
+_______________________________________________
+
+	batch_size = 9999
+	swap_limit = 0
+	weight_scaling = 2
+	energy_weight = 1.000000
+	force_weight = 0.000000
+	init_value = 0.000001
+	site_en_weight = 0.000000
+	stress_weight = 0.000000
+	threshold = 1.001000
+Selection: state saved to "mtp_V91.mtp"
+training complete

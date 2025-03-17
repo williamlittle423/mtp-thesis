@@ -3,35 +3,24 @@ from QEOutputParser import QEOutputParser
 import numpy as np
 
 if __name__ == "__main__":
-    # Step 1: Generate a 2x2x2 BCC supercell
+    # Step 1: Define parameters for the 1-atom BCC primitive cell
     EQUILIBRIUM_CELLDM = 6.63  # BCC lattice parameter in Bohr
-    PERTURBATION_SCALE = 0.15   # Maximum relative perturbation
-    NUM_CONFIGURATIONS = 3   # Number of configurations to generate
+    PERTURBATION_SCALE = 0.05   # Maximum relative perturbation (±5%)
+    NUM_CONFIGURATIONS = 5     # Number of configurations to generate
 
-    # Base atomic positions for a single BCC unit cell (2 atoms)
+    # Base atomic position for a single BCC unit cell (1 atom at the corner)
     BASE_POSITIONS_UNIT_CELL = np.array([
-        [0.0, 0.0, 0.0],  # Atom at the corner
-        [0.5, 0.5, 0.5]   # Atom at the body center
+        [0.0, 0.0, 0.0]  # Atom at the origin (primitive cell)
     ])
 
-    # Generate a 2x2x2 supercell (8 unit cells, 16 atoms total)
-    BASE_POSITIONS_SUPERCELL = []
-    for x in range(2):
-        for y in range(2):
-            for z in range(2):
-                shift = np.array([x / 2.0, y / 2.0, z / 2.0])  # Shift for each unit cell
-                BASE_POSITIONS_SUPERCELL.extend(BASE_POSITIONS_UNIT_CELL + shift)
-    
-    BASE_POSITIONS_SUPERCELL = np.array(BASE_POSITIONS_SUPERCELL) % 1.0  # Ensure positions are within [0,1]
-
-    print(f"Generated a 2x2x2 supercell with {len(BASE_POSITIONS_SUPERCELL)} atoms.")
+    print(f"Generated a primitive BCC unit cell with {len(BASE_POSITIONS_UNIT_CELL)} atom(s).")
 
     # Step 2: Generate perturbed configurations and run QE simulations
     generator = QEInputGenerator(
         equilibrium_celldm=EQUILIBRIUM_CELLDM,
         perturbation_scale=PERTURBATION_SCALE,
         qe_binary="pw.x",
-        base_positions=BASE_POSITIONS_SUPERCELL,
+        base_positions=BASE_POSITIONS_UNIT_CELL,
         qe_outputs_dir="qe_outputs_validation_set"
     )
     

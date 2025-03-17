@@ -1,0 +1,38 @@
+_________________Errors report_________________
+Energy:
+	Errors checked for 10 configurations
+	Maximal absolute difference = 18.0934
+	Average absolute difference = 10.4433
+	RMS     absolute difference = 12.035
+
+Energy per atom:
+	Errors checked for 10 configurations
+	Maximal absolute difference = 1.13084
+	Average absolute difference = 0.652706
+	RMS     absolute difference = 0.752186
+
+Forces:
+	Errors checked for 160 atoms
+	Maximal absolute difference = 160.481
+	Average absolute difference = 18.7666
+	RMS     absolute difference = 28.3823
+	Max(ForceDiff) / Max(Force) = 0.0424351
+	RMS(ForceDiff) / RMS(Force) = 0.0401415
+
+Stresses (in energy units):
+	Errors checked for 10 configurations
+	Maximal absolute difference = 1690.82
+	Average absolute difference = 784.585
+	RMS     absolute difference = 874.23
+	Max(StresDiff) / Max(Stres) = 44.2485
+	RMS(StresDiff) / RMS(Stres) = 42.219
+
+Virial stresses (in pressure units):
+	Errors checked for 10 configurations
+	Maximal absolute difference = 8746.87
+	Average absolute difference = 3261.65
+	RMS     absolute difference = 3967.99
+	Max(StresDiff) / Max(Stres) = 44.2485
+	RMS(StresDiff) / RMS(Stres) = 40.7416
+_______________________________________________
+

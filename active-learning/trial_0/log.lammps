@@ -1,0 +1,100 @@
+LAMMPS (29 Aug 2024 - Update 1)
+# Initialization
+units           metal
+boundary        p p f  # Periodic in x, y; free in z
+atom_style      atomic
+processors      * * 1  # Adjust based on your system's processor layout
+
+# Variables
+variable T equal 670.0  # Temperature in Kelvin
+variable tdamp equal 0.1  # Damping parameter for thermostat
+variable seed index 826626413  # Random seed for velocity initialization
+
+# System and atom definition
+read_data       Li.lmp  # LAMMPS data file for BCC Lithium
+Reading data file ...
+  orthogonal box = (0 0 0) to (7.02 7.02 7.02)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  16 atoms
+  read_data CPU = 0.001 seconds
+
+# Potential
+pair_style       mlip load_from=mtp_initial.mtp extrapolation_control=true extrapolation_control:threshold_break=10 extrapolation_control:threshold_save=2 extrapolation_control:save_extrapolative_to=out/preselected.cfg
+pair_coeff       * *
+
+# Groups
+group bottom id 1:8       # First 8 atoms (bottom layer)
+8 atoms in group bottom
+group top id 9:16         # Last 8 atoms (top layer)
+8 atoms in group top
+group middle id 5:12      # Middle subset of atoms
+8 atoms in group middle
+group addatom id 16       # Single atom for "addatom" group
+1 atoms in group addatom
+
+
+# Neighbor list settings
+neighbor        3 bin
+neigh_modify    every 1 delay 5 check yes
+
+# Timestep and velocities
+timestep        0.001  # Timestep in picoseconds
+velocity        addatom set -0.033 0.05 -13  # Initial velocity for atom group "addatom"
+velocity        top create ${T} ${seed} dist gaussian
+velocity        top create 670 ${seed} dist gaussian
+velocity        top create 670 826626413 dist gaussian
+
+# Fixes (integrators and constraints)
+fix             1 addatom nve  # Integrate "addatom" group using NVE ensemble
+fix             2 top nve      # Integrate "top" group using NVE ensemble
+fix             freeze bottom setforce 0.0 0.0 0.0  # Freeze the "bottom" group (no movement)
+fix             wall_top top wall/reflect zhi EDGE  # Reflective wall at the top boundary (zhi)
+fix             wall_bottom all wall/reflect zlo EDGE  # Reflective wall at the bottom boundary (zlo)
+fix             thermostat middle nvt temp ${T} ${T} ${tdamp}  # Thermostat for "middle" group
+fix             thermostat middle nvt temp 670 ${T} ${tdamp}  
+fix             thermostat middle nvt temp 670 670 ${tdamp}  
+fix             thermostat middle nvt temp 670 670 0.1  
+
+# Thermodynamic output settings
+thermo_style    custom step temp
+thermo_modify   lost error
+thermo          100
+
+# Dumps (trajectory output)
+dump            dump_all all custom 1000 dump.lithium.trj id type x y z
+
+# Run simulation
+run             5000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- Type Label Framework: https://doi.org/10.1021/acs.jpcb.3c08419
+
+@Article{Gissinger24,
+ author = {Jacob R. Gissinger, Ilia Nikiforov, Yaser Afshar, Brendon Waters, Moon-ki Choi, Daniel S. Karls, Alexander Stukowski, Wonpil Im, Hendrik Heinz, Axel Kohlmeyer, and Ellad B. Tadmor},
+ title = {Type Label Framework for Bonded Force Fields in LAMMPS},
+ journal = {J. Phys. Chem. B},
+ year =    2024,
+ volume =  128,
+ number =  13,
+ pages =   {3282–-3297}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+WARNING: One or more atoms are time integrated more than once (../modify.cpp:296)
+Neighbor list info ...
+  update: every = 1 steps, delay = 5 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 2 2 2
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair mlip, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard

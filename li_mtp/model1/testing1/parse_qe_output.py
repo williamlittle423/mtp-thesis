@@ -85,4 +85,5 @@ if __name__ == "__main__":
     qe_output_files = [
         os.path.join("qe_outputs", f) for f in os.listdir("qe_outputs") if f.endswith(".out")
     ]
+    
     write_mtp_configurations(qe_output_files)

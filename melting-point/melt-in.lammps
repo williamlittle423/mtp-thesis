@@ -1,0 +1,36 @@
+# Initialization
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+
+# System definition
+read_data       Li.data  # Use the generated data file
+mass            1 6.94   # Lithium atomic mass
+
+# Interatomic potential
+pair_style      mlip load_from=mtp_initial.mtp  # Ensure this potential supports melting
+pair_coeff      * *
+
+# Temperature equilibration
+velocity        all create 300.0 12345 mom yes rot yes
+fix             1 all nvt temp 300.0 300.0 0.1
+thermo          100
+thermo_style    custom step temp pe ke etotal
+timestep        0.001
+run             5000
+unfix           1
+
+# Heating to melting point
+variable        Tstart equal 300.0
+variable        Tend equal 1100.0
+fix             2 all npt temp ${Tstart} ${Tend} 0.1 iso 0.0 0.0 1.0
+run             200000  # Run until equilibrium
+
+# Cooling phase (to identify melting temperature)
+fix             3 all npt temp ${Tend} ${Tstart} 0.1 iso 0.0 0.0 1.0
+run             200000
+
+# Analysis
+compute         msd all msd   # Mean square displacement to detect melting
+fix             4 all ave/time 100 1 1000 c_msd file msd_li.txt

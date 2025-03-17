@@ -1,0 +1,55 @@
+# Initialization
+units           metal
+boundary        p p f  # Periodic in x, y; free in z
+atom_style      atomic
+processors      * * 1  # Adjust based on your system's processor layout
+
+# Variables
+variable T equal 670.0  # Temperature in Kelvin
+variable tdamp equal 0.1  # Damping parameter for thermostat
+variable seed index 826626413  # Random seed for velocity initialization
+
+# System and atom definition
+read_data       Li.lmp  # LAMMPS data file for BCC Lithium
+
+# Potential
+pair_style       mlip load_from=mtp_initial.mtp extrapolation_control=true extrapolation_control:threshold_break=10 extrapolation_control:threshold_save=2 extrapolation_control:save_extrapolative_to=out/preselected.cfg
+pair_coeff       * *
+
+# Groups
+group bottom id 1:8       # First 8 atoms (bottom layer)
+group top id 9:16         # Last 8 atoms (top layer)
+group middle id 5:12      # Middle subset of atoms
+group addatom id 16       # Single atom for "addatom" group
+
+
+# Neighbor list settings
+neighbor        3 bin
+neigh_modify    every 1 delay 5 check yes
+
+# Timestep and velocities
+timestep        0.001  # Timestep in picoseconds
+velocity        addatom set -0.033 0.05 -13  # Initial velocity for atom group "addatom"
+velocity        top create ${T} ${seed} dist gaussian
+
+# Fixes (integrators and constraints)
+fix             1 addatom nve  # Integrate "addatom" group using NVE ensemble
+fix             2 top nve      # Integrate "top" group using NVE ensemble
+fix             freeze bottom setforce 0.0 0.0 0.0  # Freeze the "bottom" group (no movement)
+fix             wall_top top wall/reflect zhi EDGE  # Reflective wall at the top boundary (zhi)
+fix             wall_bottom all wall/reflect zlo EDGE  # Reflective wall at the bottom boundary (zlo)
+fix             thermostat middle nvt temp ${T} ${T} ${tdamp}  # Thermostat for "middle" group
+
+# Thermodynamic output settings
+thermo_style    custom step temp 
+thermo_modify   lost error
+thermo          100
+
+# Dumps (trajectory output)
+dump            dump_all all custom 1000 dump.lithium.trj id type x y z
+
+# Run simulation
+run             5000
+
+# Reset timestep for further simulations, if needed
+reset_timestep  0

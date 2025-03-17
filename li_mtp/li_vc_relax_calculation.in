@@ -8,10 +8,10 @@
 /
 &SYSTEM
     ibrav = 3,                   ! BCC structure
-    celldm(1) = 10.0,            ! Initial lattice parameter in Bohr
+    celldm(1) = 6.6,            ! Initial lattice parameter in Bohr
     nat = 2,                     ! Number of atoms in the unit cell
     ntyp = 1,                    ! Number of types of atoms
-    ecutwfc = 30.0,              ! Plane-wave cutoff for wavefunctions (Ry)
+    ecutwfc = 65.0,              ! Plane-wave cutoff for wavefunctions (Ry)
     ecutrho = 300.0,             ! Plane-wave cutoff for charge density (Ry)
     occupations = 'smearing',
     smearing = 'gaussian',

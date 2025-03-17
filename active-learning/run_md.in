@@ -1,0 +1,37 @@
+# LAMMPS Input Script for Stable MD Simulations with MTP
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# Read the initial structure
+read_data       %%DATA_FILE%%
+
+# Define mass for Lithium (type 1)
+mass 1 6.941
+
+# Define MTP potential with stricter extrapolation controls
+pair_style      mlip load_from=%%MTP_MODEL%% extrapolation_control=true extrapolation_control:threshold_break=2 extrapolation_control:threshold_save=1.2 extrapolation_control:save_extrapolative_to=out/preselected.cfg
+pair_coeff      * *
+
+# Neighbor list settings
+neighbor        2.0 bin
+neigh_modify    every 1 delay 0 check yes
+
+# Thermodynamic output settings
+thermo          100
+thermo_style    custom step temp pe ke etotal press vol
+
+# Reduced timestep for better stability (0.5 fs)
+timestep        0.0005  
+
+# Create initial velocities to avoid starting from zero velocities
+velocity        all create 300.0 12345 mom yes rot yes dist gaussian
+
+# Apply NPT ensemble with stable thermostat and barostat settings
+fix             fix_npt all npt temp 300 300 0.5 iso 0 0 5.0
+
+# Run MD simulation for 10 ps (20000 timesteps due to reduced timestep)
+run             20000
+
+# Write final configuration
+write_data      final_config.data

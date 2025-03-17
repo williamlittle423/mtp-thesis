@@ -89,3 +89,32 @@ class QEOutputParser:
 
                 except Exception as e:
                     print(f"Error processing {qe_output_file}: {e}")
+
+    def append_mtp_configurations(self, qe_output_files, mtp_config_file):
+        """
+        Append parsed Quantum ESPRESSO outputs into an MTP-compatible configuration file.
+        """
+        # Open the file in append mode ("a")
+        with open(mtp_config_file, "a") as cfg_file:
+            for qe_output_file in qe_output_files:
+                with open(qe_output_file, "r") as file:
+                    qe_output = file.read()
+
+                try:
+                    cell_vectors, atom_positions, forces, stress_tensor, energy = self.parse_qe_output(qe_output)
+
+                    cfg_file.write("BEGIN_CFG\n")
+                    cfg_file.write(f" Size\n    {len(atom_positions)}\n")
+                    cfg_file.write(" Supercell\n")
+                    for vector in cell_vectors:
+                        cfg_file.write(f"   {'      '.join(f'{v:.6f}' for v in vector)}\n")
+                    cfg_file.write(" AtomData:  id    type    cartes_x      cartes_y      cartes_z           fx          fy          fz\n")
+                    for i, (pos, force) in enumerate(zip(atom_positions, forces), start=1):
+                        cfg_file.write(f"            {i}     0       {'      '.join(f'{p:.6f}' for p in pos)}           {'      '.join(f'{f:.6f}' for f in force)}\n")
+                    cfg_file.write(" PlusStress: xx          yy          zz          yz          xz          xy\n")
+                    cfg_file.write(f"         {'   '.join(f'{s:.6f}' if s < 0 else f' {s:.6f}' for s in stress_tensor)}\n")
+                    cfg_file.write(f" Energy\n    {energy:.6f}\n")
+                    cfg_file.write("END_CFG\n\n")
+
+                except Exception as e:
+                    print(f"Error processing {qe_output_file}: {e}")

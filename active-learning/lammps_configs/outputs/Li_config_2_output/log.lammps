@@ -1,0 +1,60 @@
+LAMMPS (29 Aug 2024 - Update 1)
+# LAMMPS Input Script for Stable MD Simulations with MTP
+units           metal
+boundary        p p p
+atom_style      atomic
+
+# Read the initial structure
+read_data       lammps_configs/Li_config_2.data
+Reading data file ...
+  orthogonal box = (0 0 0) to (3.4749 3.4749 3.4749)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  2 atoms
+  read_data CPU = 0.000 seconds
+
+# Define mass for Lithium (type 1)
+mass 1 6.941
+
+# Define MTP potential with stricter extrapolation controls
+pair_style      mlip load_from=run_md.in extrapolation_control=true extrapolation_control:threshold_break=2 extrapolation_control:threshold_save=1.2 extrapolation_control:save_extrapolative_to=out/preselected.cfg
+pair_coeff      * *
+
+# Neighbor list settings
+neighbor        2.0 bin
+neigh_modify    every 1 delay 0 check yes
+
+# Thermodynamic output settings
+thermo          100
+thermo_style    custom step temp pe ke etotal press vol
+
+# Reduced timestep for better stability (0.5 fs)
+timestep        0.0005
+
+# Create initial velocities to avoid starting from zero velocities
+velocity        all create 300.0 12345 mom yes rot yes dist gaussian
+
+# Apply NPT ensemble with stable thermostat and barostat settings
+fix             fix_npt all npt temp 300 300 0.5 iso 0 0 5.0
+
+# Run MD simulation for 10 ps (20000 timesteps due to reduced timestep)
+run             20000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- Type Label Framework: https://doi.org/10.1021/acs.jpcb.3c08419
+
+@Article{Gissinger24,
+ author = {Jacob R. Gissinger, Ilia Nikiforov, Yaser Afshar, Brendon Waters, Moon-ki Choi, Daniel S. Karls, Alexander Stukowski, Wonpil Im, Hendrik Heinz, Axel Kohlmeyer, and Ellad B. Tadmor},
+ title = {Type Label Framework for Bonded Force Fields in LAMMPS},
+ journal = {J. Phys. Chem. B},
+ year =    2024,
+ volume =  128,
+ number =  13,
+ pages =   {3282–-3297}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
