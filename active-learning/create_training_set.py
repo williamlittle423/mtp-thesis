@@ -4,8 +4,8 @@ import numpy as np
 
 if __name__ == "__main__":
     EQUILIBRIUM_CELLDM = 6.63  # BCC lattice parameter in Bohr
-    PERTURBATION_SCALE = 0.10   # Maximum relative perturbation (+/- 10%)
-    NUM_CONFIGURATIONS = 10     # Number of configurations to generate
+    PERTURBATION_SCALE = 0.01  # Maximum relative perturbation (+/- 1%)
+    NUM_CONFIGURATIONS = 10    # Number of configurations to generate
 
     # Base atomic position for a single BCC unit cell (1 atom at the corner)
     BASE_POSITIONS_UNIT_CELL = np.array([

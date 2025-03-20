@@ -1,5 +1,5 @@
 LAMMPS (29 Aug 2024 - Update 1)
-# LAMMPS Input Script for Stable MD Simulations with MTP
+# LAMMPS Input Script for 10K MD Simulation with MTP
 units           metal
 boundary        p p p
 atom_style      atomic
@@ -17,7 +17,7 @@ Reading data file ...
 mass 1 6.941
 
 # Define MTP potential with stricter extrapolation controls
-pair_style      mlip load_from=run_md.in extrapolation_control=true extrapolation_control:threshold_break=2 extrapolation_control:threshold_save=1.2 extrapolation_control:save_extrapolative_to=out/preselected.cfg
+pair_style      mlip load_from=mtp_V43.mtp extrapolation_control=true extrapolation_control:threshold_break=10 extrapolation_control:threshold_save=2 extrapolation_control:save_extrapolative_to=out/preselected.cfg
 pair_coeff      * *
 
 # Neighbor list settings
@@ -25,20 +25,20 @@ neighbor        2.0 bin
 neigh_modify    every 1 delay 0 check yes
 
 # Thermodynamic output settings
-thermo          100
+thermo          10
 thermo_style    custom step temp pe ke etotal press vol
 
 # Reduced timestep for better stability (0.5 fs)
-timestep        0.0005
+timestep        0.0001
 
-# Create initial velocities to avoid starting from zero velocities
-velocity        all create 300.0 12345 mom yes rot yes dist gaussian
+# Create initial velocities at 10K (avoiding zero initial velocity)
+velocity        all create 10.0 12345 mom yes rot yes dist gaussian
 
-# Apply NPT ensemble with stable thermostat and barostat settings
-fix             fix_npt all npt temp 300 300 0.5 iso 0 0 5.0
+# Apply NPT ensemble for 10K simulation
+fix             fix_npt all npt temp 10.0 10.0 0.5 iso 0 0 5.0
 
 # Run MD simulation for 10 ps (20000 timesteps due to reduced timestep)
-run             20000
+run             5000
 
 CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
 
@@ -58,3 +58,15 @@ Your simulation uses code contributions which should be cited:
 
 CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
 
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 2 2 2
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair mlip, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard

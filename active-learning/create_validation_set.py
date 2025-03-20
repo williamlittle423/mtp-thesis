@@ -5,7 +5,7 @@ import numpy as np
 if __name__ == "__main__":
     # Step 1: Define parameters for the 1-atom BCC primitive cell
     EQUILIBRIUM_CELLDM = 6.63  # BCC lattice parameter in Bohr
-    PERTURBATION_SCALE = 0.05   # Maximum relative perturbation (±5%)
+    PERTURBATION_SCALE = 0.02   # Maximum relative perturbation (±2%)
     NUM_CONFIGURATIONS = 5     # Number of configurations to generate
 
     # Base atomic position for a single BCC unit cell (1 atom at the corner)
