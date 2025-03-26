@@ -1,0 +1,51 @@
+LAMMPS (29 Aug 2024 - Update 1)
+# Stage 1 - Active Learning: 2-atom BCC Lithium primitive cell
+
+units           metal
+atom_style      atomic
+boundary        p p p
+
+# Create primitive BCC unit cell
+lattice         bcc 3.49
+Lattice spacing in x,y,z = 3.49 3.49 3.49
+region          box block 0 1 0 1 0 1
+create_box      1 box
+Created orthogonal box = (0 0 0) to (3.49 3.49 3.49)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 2 atoms
+  using lattice units in orthogonal box = (0 0 0) to (3.49 3.49 3.49)
+  create_atoms CPU = 0.001 seconds
+
+mass            1 6.94  # Lithium
+
+pair_style      mlip load_from=pot_V0.almtp extrapolation_control=true extrapolation_control:threshold_break=1000000 extrapolation_control:threshold_save=100000 extrapolation_control:save_extrapolative_to=out/preselected_stage1_2atom.cfg
+pair_coeff      * *
+
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes
+
+velocity        all create 100.0 12345 mom yes rot no dist gaussian
+
+thermo          50
+thermo_style    custom step temp pe etotal press
+
+dump            1 all xyz 10 dump.stage1_2atom.xyz
+dump_modify     1 sort id
+
+fix             1 all nvt temp 100.0 100.0 0.1
+
+timestep        0.001
+run             10000
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 1 1 1
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair mlip, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard

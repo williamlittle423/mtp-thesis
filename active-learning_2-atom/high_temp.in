@@ -1,0 +1,40 @@
+# 4x4x4 BCC Lithium simulation using MTP at low temperature
+
+units           metal
+atom_style      atomic
+boundary        p p p
+
+# Create 4x4x4 BCC lattice
+lattice         bcc 3.49   # ~6.63 Bohr ≈ 3.49 Å for lithium
+region          box block 0 4 0 4 0 4
+create_box      1 box
+create_atoms    1 box
+
+# Atom mass
+mass            1 6.94  # Lithium
+
+# Load MTP potential
+pair_style      mlip load_from=pot_V0.almtp
+pair_coeff      * *
+
+# Neighbor settings
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes
+
+# Initial velocities at low temperature
+velocity        all create 300.0 12345 mom yes rot no dist gaussian
+
+# Thermodynamic output
+thermo          100
+thermo_style    custom step temp pe etotal press
+
+# Dump for OVITO
+dump            1 all xyz 100 dump.4x4x4_lowT.xyz
+dump_modify     1 sort id
+
+# Fix: NVT ensemble at low temperature
+fix             1 all nvt temp 300.0 300.0 0.1
+
+# Time step and run length
+timestep        0.001
+run             5000

@@ -1,0 +1,14 @@
+BEGIN_CFG
+ Size
+    2
+ Supercell
+         3.490000      0.000000      0.000000
+         0.000000      3.490000      0.000000
+         0.000000      0.000000      3.490000
+ AtomData:  id type       cartes_x      cartes_y      cartes_z       nbh_grades
+             1    0       0.000000      0.000000      0.000000   19886358.76787
+             2    0       1.745000      1.745000      1.745000   19886358.76787
+ Feature   MV_grade	19886358.767866
+ Feature   ind	1
+END_CFG
+
